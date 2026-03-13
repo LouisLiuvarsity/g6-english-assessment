@@ -218,3 +218,8 @@
 - [x] Create tRPC procedure to save manual paper data
 - [x] Display saved manual papers on home page for students to select and take
 - [x] Fix database insert error when saving manual paper (blueprintJson with base64 image data too large for column)
+- [x] Upload all 65 local-paper-assets media files to S3 CDN
+- [x] Update pet-paper.ts LOCAL_ASSET_BASE to use S3 CDN URL
+- [x] Add rewriteLocalUrlToS3() helper to storage.ts
+- [x] Move large media files out of project directory to avoid deployment timeout
+- [x] Update tests for new question types (16 types)

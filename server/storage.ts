@@ -15,6 +15,30 @@ export const LOCAL_STORAGE_DIR = path.resolve(
   "local-paper-assets"
 );
 
+/**
+ * S3 CDN base URL for migrated local-paper-assets.
+ * All files previously stored under local-paper-assets/paper-assets/ have been
+ * uploaded to S3 and are accessible via this CDN prefix.
+ */
+export const S3_CDN_BASE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663325188422/VUHjMbahokWnaDCesocaTj";
+
+/**
+ * Rewrite a /local-paper-assets/... URL to its S3 CDN equivalent.
+ * Returns the original URL unchanged if it doesn't match the local pattern.
+ */
+export function rewriteLocalUrlToS3(url: string): string {
+  if (!url) return url;
+  // Already an absolute URL (S3, CDN, etc.) — leave it alone
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  // Match /local-paper-assets/paper-assets/...
+  const prefix = "/local-paper-assets/";
+  if (url.startsWith(prefix)) {
+    const relPath = url.slice(prefix.length); // e.g. "paper-assets/foo.png"
+    return `${S3_CDN_BASE}/${relPath}`;
+  }
+  return url;
+}
+
 function getStorageConfig(): StorageConfig {
   const baseUrl = ENV.forgeApiUrl;
   const apiKey = ENV.forgeApiKey;

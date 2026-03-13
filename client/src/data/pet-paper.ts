@@ -1,8 +1,8 @@
 import type { Paper, Section } from './papers';
 
-const LOCAL_ASSET_BASE = '/local-paper-assets/paper-assets';
+const S3_ASSET_BASE = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663325188422/VUHjMbahokWnaDCesocaTj/paper-assets';
 const LISTENING_AUDIO_URL = 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663325188422/LiBhwFnCzcNfOBcL.mp3';
-const WRITING_PART_2_PAGE = `${LOCAL_ASSET_BASE}/pet-writing-part-2-notice.png`;
+const WRITING_PART_2_PAGE = `${S3_ASSET_BASE}/pet-writing-part-2-notice.png`;
 
 const LISTENING_OPTION_IMAGES: Record<string, string> = {
   'q1-a': 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663325188422/HZeASSFioTBMYTZH.png',

@@ -104,7 +104,7 @@ describe("manualPaperBlueprint types and labels", () => {
     expect(option!.label).toBe("Passage Matching");
   });
 
-  it("has all eight question types in labels", () => {
+  it("has all question types in labels", () => {
     const keys = Object.keys(MANUAL_QUESTION_TYPE_LABELS);
     expect(keys).toContain("mcq");
     expect(keys).toContain("fill-blank");
@@ -114,10 +114,20 @@ describe("manualPaperBlueprint types and labels", () => {
     expect(keys).toContain("passage-open-ended");
     expect(keys).toContain("writing");
     expect(keys).toContain("passage-matching");
-    expect(keys).toHaveLength(8);
+    expect(keys).toContain("speaking");
+    expect(keys).toContain("true-false");
+    expect(keys).toContain("heading-match");
+    expect(keys).toContain("checkbox");
+    expect(keys).toContain("ordering");
+    expect(keys).toContain("sentence-reorder");
+    expect(keys).toContain("inline-word-choice");
+    expect(keys).toContain("passage-inline-word-choice");
+    expect(keys).toContain("picture-spelling");
+    expect(keys).toContain("word-completion");
+    expect(keys.length).toBeGreaterThanOrEqual(16);
   });
 
-  it("has all eight question types in options array", () => {
+  it("has all question types in options array", () => {
     const values = MANUAL_QUESTION_TYPE_OPTIONS.map((o) => o.value);
     expect(values).toContain("mcq");
     expect(values).toContain("fill-blank");
@@ -127,7 +137,16 @@ describe("manualPaperBlueprint types and labels", () => {
     expect(values).toContain("passage-open-ended");
     expect(values).toContain("writing");
     expect(values).toContain("passage-matching");
-    expect(values).toHaveLength(8);
+    expect(values).toContain("speaking");
+    expect(values).toContain("true-false");
+    expect(values).toContain("ordering");
+    expect(values).toContain("sentence-reorder");
+    expect(values).toContain("inline-word-choice");
+    expect(values).toContain("passage-inline-word-choice");
+    expect(values).toContain("picture-spelling");
+    expect(values).toContain("word-completion");
+    // heading-match and checkbox are in LABELS but not in OPTIONS (they use passage-matching and mcq UIs)
+    expect(values.length).toBeGreaterThanOrEqual(16);
   });
 
   it("passage-fill-blank question type is assignable", () => {
