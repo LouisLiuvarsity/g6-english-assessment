@@ -223,3 +223,5 @@
 - [x] Add rewriteLocalUrlToS3() helper to storage.ts
 - [x] Move large media files out of project directory to avoid deployment timeout
 - [x] Update tests for new question types (16 types)
+- [x] Fix missing 2 paper cards on deployed site compared to user's local environment
+- [x] Import user's local manual papers (WIDA G9-12, PET, grade6 math) from local DB into remote database
