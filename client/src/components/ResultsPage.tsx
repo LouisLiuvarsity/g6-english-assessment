@@ -655,7 +655,7 @@ export default function ResultsPage() {
         const essay = getAnswer('writing', writingQ.id);
         if (essay && typeof essay === 'string' && essay.trim().length > 10) {
           setIsGradingWriting(true);
-          evaluateWritingMutation.mutate({ essay, topic: writingQ.topic, wordCountTarget: writingQ.wordCount }, {
+          evaluateWritingMutation.mutate({ essay, topic: writingQ.question || writingQ.topic, wordCountTarget: writingQ.wordCount }, {
             onSuccess: (data) => { setWritingResult(data); setIsGradingWriting(false); },
             onError: () => { setWritingError('Failed to evaluate writing.'); setIsGradingWriting(false); },
           });

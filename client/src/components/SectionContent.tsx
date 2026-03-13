@@ -703,7 +703,21 @@ function OpenEndedCard({ q, answer, onAnswer }: { q: OpenEndedQuestion; answer?:
 
 // ========== SPEAKING (Audio Recording) ==========
 
-function SpeakingCard({ q, sectionId, answer, onAnswer }: { q: OpenEndedQuestion; sectionId: string; answer?: string; onAnswer: (v: string) => void }) {
+function SpeakingCard({
+  q,
+  sectionId,
+  sectionSceneImageUrl,
+  answer,
+  onAnswer,
+}: {
+  q: OpenEndedQuestion;
+  sectionId: string;
+  sectionSceneImageUrl?: string;
+  answer?: string;
+  onAnswer: (v: string) => void;
+}) {
+  const shouldRenderInlineImage = Boolean(q.imageUrl && q.imageUrl !== sectionSceneImageUrl);
+
   if (q.subQuestions && q.subQuestions.length > 0) {
     const parsed = (() => {
       try { return typeof answer === 'string' ? JSON.parse(answer) : (answer || {}); } catch { return {}; }
@@ -746,7 +760,7 @@ function SpeakingCard({ q, sectionId, answer, onAnswer }: { q: OpenEndedQuestion
         <span className="font-bold text-slate-500 mr-2">Q{q.id}.</span>
         {q.question}
       </p>
-      {q.imageUrl && (
+      {shouldRenderInlineImage && q.imageUrl && (
         <div className="flex justify-center">
           <img
             src={q.imageUrl}
@@ -1319,25 +1333,45 @@ function CheckboxCard({ q, answer, onAnswer }: { q: CheckboxQuestion; answer?: n
 
 function WritingCard({ q, answer, onAnswer }: { q: WritingQuestion; answer?: string; onAnswer: (v: string) => void }) {
   const wordCount = typeof answer === 'string' ? answer.trim().split(/\s+/).filter(Boolean).length : 0;
+  const hasPrompts = Array.isArray(q.prompts) && q.prompts.length > 0;
+  const topicText = q.topic?.trim() || '';
+  const questionText = q.question?.trim() || '';
+  const instructionText = q.instructions?.trim() || '';
+  const showTopicText = Boolean(!questionText && topicText);
+  const showQuestionText = Boolean(questionText);
+  const showInstructionText = Boolean(instructionText && instructionText !== questionText);
 
   return (
     <div className="space-y-4">
       <div className="p-5 rounded-xl bg-gradient-to-br from-rose-50 to-amber-50 border border-rose-200">
-        <h3 className="font-bold text-lg text-slate-800 mb-2">Topic: {q.topic}</h3>
-        <p className="whitespace-pre-wrap break-words text-base text-slate-600 mb-3">{q.instructions}</p>
-        <p className="text-base text-slate-500 mb-2">You may include:</p>
-        <ul className="list-disc list-inside text-base text-slate-500 space-y-1">
-          {q.prompts.map((p, i) => (
-            <li key={i} className="whitespace-pre-wrap break-words">{p}</li>
-          ))}
-        </ul>
-        <p className="mt-3 text-xs font-medium text-slate-400">Word count: {q.wordCount}</p>
+        {showTopicText && (
+          <h3 className="font-bold text-lg text-slate-800 mb-2">{topicText}</h3>
+        )}
+        {showQuestionText && (
+          <p className="whitespace-pre-wrap break-words text-base text-slate-700 mb-3">{questionText}</p>
+        )}
+        {showInstructionText && (
+          <p className="whitespace-pre-wrap break-words text-base text-slate-600 mb-3">{instructionText}</p>
+        )}
+        {hasPrompts && (
+          <>
+            <p className="text-base text-slate-500 mb-2">You may include:</p>
+            <ul className="list-disc list-inside text-base text-slate-500 space-y-1">
+              {q.prompts.map((p, i) => (
+                <li key={i} className="whitespace-pre-wrap break-words">{p}</li>
+              ))}
+            </ul>
+          </>
+        )}
+        {q.wordCount && (
+          <p className="mt-3 text-xs font-medium text-slate-400">Word count: {q.wordCount}</p>
+        )}
       </div>
       {q.imageUrl && (
         <div className="flex justify-center">
           <img
             src={q.imageUrl}
-            alt={q.topic}
+            alt={topicText || questionText || 'Writing prompt'}
             className="max-h-72 object-contain rounded-xl border border-slate-200 bg-white"
             loading="lazy"
           />
@@ -1789,7 +1823,15 @@ function QuestionRenderer({ question, section, sectionId, answer, onAnswer }: {
       );
     case 'open-ended':
       if (question.responseMode === 'audio' || section.sectionType === 'speaking' || sectionId.toLowerCase().includes('speaking')) {
-        return <SpeakingCard q={question} sectionId={sectionId} answer={answer} onAnswer={onAnswer} />;
+        return (
+          <SpeakingCard
+            q={question}
+            sectionId={sectionId}
+            sectionSceneImageUrl={section.sceneImageUrl}
+            answer={answer}
+            onAnswer={onAnswer}
+          />
+        );
       }
       return <OpenEndedCard q={question} answer={answer} onAnswer={onAnswer} />;
     case 'true-false':
@@ -2018,8 +2060,8 @@ function SectionQuestionBody({
 
           {section.sectionType === 'speaking' && section.taskDescription && (
             <div className="rounded-xl border border-sky-100 bg-sky-50/40 p-4">
-              <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-sky-700">Task Description</p>
-              <p className="whitespace-pre-wrap text-sm leading-relaxed text-slate-700">
+              <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-sky-700 sm:text-base">Task Description</p>
+              <p className="whitespace-pre-wrap text-lg leading-9 text-slate-700">
                 {section.taskDescription}
               </p>
             </div>
@@ -2144,7 +2186,7 @@ export default function SectionContent() {
                         ) : null}
                       </div>
                       {block.instructions ? (
-                        <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-relaxed text-slate-500">
+                        <p className="mt-2 whitespace-pre-wrap break-words text-lg leading-9 text-slate-600">
                           {block.instructions}
                         </p>
                       ) : null}

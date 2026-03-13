@@ -321,12 +321,17 @@ function convertSingleQuestion(
     }
 
     case "writing": {
+      const promptText = q.prompt?.trim() || "";
+      const topicText = subsection.title?.trim()
+        || promptText
+        || "Writing Task";
+
       return {
         id,
         type: "writing",
-        question: q.prompt,
-        topic: q.prompt,
-        instructions: q.prompt,
+        question: promptText,
+        topic: topicText,
+        instructions: "",
         wordCount: q.minWords && q.maxWords
           ? `${q.minWords}-${q.maxWords} words`
           : q.minWords
@@ -334,7 +339,7 @@ function convertSingleQuestion(
             : q.maxWords
               ? `Up to ${q.maxWords} words`
               : "",
-        prompts: [q.prompt],
+        prompts: [],
         correctAnswer: q.referenceAnswer || "",
         imageUrl: getAssetUrl(q.image),
         minWords: q.minWords,

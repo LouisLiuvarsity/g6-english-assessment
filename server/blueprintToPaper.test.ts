@@ -494,6 +494,10 @@ describe("blueprintToPaper", () => {
     expect(result.hasWriting).toBe(true);
     const q = result.sections[0].questions[0];
     expect(q.type).toBe("writing");
+    expect(q.question).toBe("Describe your favorite holiday.");
+    expect(q.topic).toBe("Essay");
+    expect(q.instructions).toBe("");
+    expect(q.prompts).toEqual([]);
     expect(q.minWords).toBe(100);
     expect(q.maxWords).toBe(200);
     expect(q.wordCount).toBe("100-200 words");

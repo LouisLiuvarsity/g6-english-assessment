@@ -180,6 +180,7 @@ export interface CheckboxQuestion {
 export interface WritingQuestion {
   id: number;
   type: 'writing';
+  question?: string;
   topic: string;
   instructions: string;
   wordCount: string;
