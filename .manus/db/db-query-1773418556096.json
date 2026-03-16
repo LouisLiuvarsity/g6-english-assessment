@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE localUsers SET inviteCode = 'ENG2026::english' WHERE username = '1334529';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user mWBJwMymT3uxJ8c.261d2007010d --database VUHjMbahokWnaDCesocaTj --execute UPDATE localUsers SET inviteCode = 'ENG2026::english' WHERE username = '1334529';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1525
+}

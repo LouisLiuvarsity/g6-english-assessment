@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, username, inviteCode, displayName, role FROM localUsers WHERE username = '1334529';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user mWBJwMymT3uxJ8c.261d2007010d --database VUHjMbahokWnaDCesocaTj --execute SELECT id, username, inviteCode, displayName, role FROM localUsers WHERE username = '1334529';",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'role' in 'field list'"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "query": "SELECT id, username, inviteCode, displayName FROM localUsers WHERE username = '1334529';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user mWBJwMymT3uxJ8c.261d2007010d --database VUHjMbahokWnaDCesocaTj --execute SELECT id, username, inviteCode, displayName FROM localUsers WHERE username = '1334529';",
+  "rows": [
+    {
+      "id": "90001",
+      "username": "1334529",
+      "inviteCode": "PUREONE2025::english|math|vocabulary",
+      "displayName": "1334529"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tusername\tinviteCode\tdisplayName\n90001\t1334529\tPUREONE2025::english|math|vocabulary\t1334529\n",
+  "stderr": "",
+  "execution_time_ms": 1572
+}
